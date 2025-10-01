@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertTriangle, Shield, Key, Code } from "lucide-react";
+import { AlertTriangle, Shield, Key, Code, TrendingUp, TrendingDown } from "lucide-react";
 import {
   LineChart,
   Line,
@@ -8,19 +8,22 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
 
 const issueData = [
-  { name: "Secrets", count: 47, icon: Key, color: "critical" },
-  { name: "PII", count: 23, icon: Shield, color: "warning" },
-  { name: "Prompt Injection", count: 12, icon: AlertTriangle, color: "warning" },
-  { name: "Risky Code", count: 8, icon: Code, color: "safe" },
+  { name: "Secrets", count: 47, icon: Key, trend: -5, color: "critical", glow: "glow-pink" },
+  { name: "PII", count: 23, icon: Shield, trend: 12, color: "warning", glow: "glow-purple" },
+  { name: "Prompt Injection", count: 12, icon: AlertTriangle, trend: -3, color: "warning", glow: "glow-purple" },
+  { name: "Risky Code", count: 8, icon: Code, trend: 0, color: "safe", glow: "glow-green" },
 ];
 
 const severityData = [
-  { name: "High", count: 34, color: "critical" },
-  { name: "Medium", count: 38, color: "warning" },
-  { name: "Low", count: 18, color: "safe" },
+  { name: "High", count: 34, color: "hsl(var(--critical))" },
+  { name: "Medium", count: 38, color: "hsl(var(--warning))" },
+  { name: "Low", count: 18, color: "hsl(var(--safe))" },
 ];
 
 const timelineData = [
@@ -33,38 +36,88 @@ const timelineData = [
   { date: "Day 30", violations: 90 },
 ];
 
+const sparklineData = (base: number) => [
+  { value: base },
+  { value: base + 5 },
+  { value: base - 3 },
+  { value: base + 8 },
+  { value: base - 2 },
+  { value: base + 4 },
+  { value: base },
+];
+
 const Overview = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Overview</h1>
+        <h1 className="text-3xl font-bold text-glitch">Overview</h1>
         <p className="text-muted-foreground">Security findings across all repositories</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {issueData.map((issue) => (
-          <Card key={issue.name} className="border border-border">
+          <Card 
+            key={issue.name} 
+            className={`border-${issue.color} border-2 relative overflow-hidden group hover:${issue.glow} transition-all duration-300`}
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-${issue.color}/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">{issue.name}</CardTitle>
-              <issue.icon className={`h-4 w-4 text-${issue.color}`} />
+              <issue.icon className={`h-5 w-5 text-${issue.color}`} />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{issue.count}</div>
-              <p className="text-xs text-muted-foreground mt-1">Active findings</p>
+              <div className="flex items-end justify-between">
+                <div>
+                  <div className="text-3xl font-bold pulse-glow">{issue.count}</div>
+                  <div className="flex items-center gap-1 mt-1">
+                    {issue.trend !== 0 && (
+                      <>
+                        {issue.trend > 0 ? (
+                          <TrendingUp className="h-3 w-3 text-critical" />
+                        ) : (
+                          <TrendingDown className="h-3 w-3 text-safe" />
+                        )}
+                        <span className={`text-xs ${issue.trend > 0 ? 'text-critical' : 'text-safe'}`}>
+                          {Math.abs(issue.trend)}%
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className="w-20 h-10">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={sparklineData(issue.count)}>
+                      <Line 
+                        type="monotone" 
+                        dataKey="value" 
+                        stroke={`hsl(var(--${issue.color}))`}
+                        strokeWidth={2}
+                        dot={false}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
             </CardContent>
           </Card>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 border-primary/30 glow-cyan">
           <CardHeader>
             <CardTitle>Violations Over Time (Last 30 Days)</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={timelineData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                <defs>
+                  <linearGradient id="violationGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
                 <XAxis
                   dataKey="date"
                   stroke="hsl(var(--muted-foreground))"
@@ -76,41 +129,66 @@ const Overview = () => {
                     backgroundColor: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",
                     borderRadius: "8px",
+                    boxShadow: "0 0 20px hsl(var(--primary) / 0.3)",
                   }}
                 />
                 <Line
                   type="monotone"
                   dataKey="violations"
                   stroke="hsl(var(--primary))"
-                  strokeWidth={2}
-                  dot={{ fill: "hsl(var(--primary))" }}
+                  strokeWidth={3}
+                  dot={{ fill: "hsl(var(--primary))", r: 4 }}
+                  activeDot={{ r: 6 }}
+                  fill="url(#violationGradient)"
                 />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-secondary/30 glow-purple">
           <CardHeader>
             <CardTitle>Severity Breakdown</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {severityData.map((severity) => (
-              <div key={severity.name} className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">{severity.name}</span>
+            <ResponsiveContainer width="100%" height={200}>
+              <PieChart>
+                <Pie
+                  data={severityData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={50}
+                  outerRadius={80}
+                  paddingAngle={5}
+                  dataKey="count"
+                >
+                  {severityData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--card))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="space-y-2">
+              {severityData.map((severity) => (
+                <div key={severity.name} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div 
+                      className="w-3 h-3 rounded-full" 
+                      style={{ backgroundColor: severity.color }}
+                    />
+                    <span className="text-sm font-medium">{severity.name}</span>
+                  </div>
                   <span className="text-sm font-bold">{severity.count}</span>
                 </div>
-                <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                  <div
-                    className={`h-full bg-${severity.color}`}
-                    style={{
-                      width: `${(severity.count / 90) * 100}%`,
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </CardContent>
         </Card>
       </div>

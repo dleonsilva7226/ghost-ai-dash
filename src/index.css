@@ -57,50 +57,58 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 217 33% 8%;
-    --foreground: 210 40% 98%;
+    /* Cyberpunk hacker-chic palette */
+    --background: 222 47% 4%;
+    --foreground: 180 100% 90%;
 
-    --card: 217 30% 11%;
-    --card-foreground: 210 40% 98%;
+    --card: 222 47% 6%;
+    --card-foreground: 180 100% 90%;
 
-    --popover: 217 30% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 222 47% 6%;
+    --popover-foreground: 180 100% 90%;
 
-    --primary: 195 85% 55%;
-    --primary-foreground: 217 33% 8%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 222 47% 4%;
 
-    --secondary: 217 25% 16%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 270 100% 60%;
+    --secondary-foreground: 222 47% 4%;
 
-    --muted: 217 25% 16%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 222 30% 12%;
+    --muted-foreground: 180 20% 60%;
 
-    --accent: 195 85% 55%;
-    --accent-foreground: 217 33% 8%;
+    --accent: 330 100% 60%;
+    --accent-foreground: 222 47% 4%;
 
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 180 100% 90%;
 
-    --border: 217 25% 20%;
-    --input: 217 25% 20%;
-    --ring: 195 85% 55%;
+    --border: 180 50% 15%;
+    --input: 180 50% 15%;
+    --ring: 180 100% 50%;
 
-    /* Security severity colors - dark mode */
-    --critical: 0 72% 55%;
+    /* Neon security severity colors */
+    --critical: 0 100% 60%;
     --critical-foreground: 0 0% 100%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 217 33% 8%;
-    --safe: 142 76% 45%;
-    --safe-foreground: 217 33% 8%;
+    --warning: 45 100% 60%;
+    --warning-foreground: 222 47% 4%;
+    --safe: 142 100% 50%;
+    --safe-foreground: 222 47% 4%;
 
-    --sidebar-background: 217 35% 10%;
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-primary: 195 85% 55%;
-    --sidebar-primary-foreground: 217 33% 8%;
-    --sidebar-accent: 217 25% 16%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-border: 217 25% 20%;
-    --sidebar-ring: 195 85% 55%;
+    /* Cyberpunk sidebar */
+    --sidebar-background: 222 50% 5%;
+    --sidebar-foreground: 180 100% 90%;
+    --sidebar-primary: 180 100% 50%;
+    --sidebar-primary-foreground: 222 47% 4%;
+    --sidebar-accent: 222 30% 10%;
+    --sidebar-accent-foreground: 180 100% 90%;
+    --sidebar-border: 180 50% 15%;
+    --sidebar-ring: 180 100% 50%;
+
+    /* Neon glow effects */
+    --neon-cyan: 180 100% 50%;
+    --neon-pink: 330 100% 60%;
+    --neon-purple: 270 100% 60%;
+    --neon-green: 142 100% 50%;
   }
 }
 
@@ -117,5 +125,87 @@ All colors MUST be HSL.
 @layer utilities {
   .transition-smooth {
     @apply transition-all duration-200 ease-in-out;
+  }
+
+  /* Neon glow effects */
+  .glow-cyan {
+    box-shadow: 0 0 10px hsl(var(--neon-cyan) / 0.5),
+                0 0 20px hsl(var(--neon-cyan) / 0.3),
+                0 0 30px hsl(var(--neon-cyan) / 0.1);
+  }
+
+  .glow-pink {
+    box-shadow: 0 0 10px hsl(var(--neon-pink) / 0.5),
+                0 0 20px hsl(var(--neon-pink) / 0.3),
+                0 0 30px hsl(var(--neon-pink) / 0.1);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 10px hsl(var(--neon-purple) / 0.5),
+                0 0 20px hsl(var(--neon-purple) / 0.3),
+                0 0 30px hsl(var(--neon-purple) / 0.1);
+  }
+
+  .glow-green {
+    box-shadow: 0 0 10px hsl(var(--neon-green) / 0.5),
+                0 0 20px hsl(var(--neon-green) / 0.3),
+                0 0 30px hsl(var(--neon-green) / 0.1);
+  }
+
+  /* Matrix grid animation */
+  @keyframes matrix-scan {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 0% 100%;
+    }
+  }
+
+  .matrix-bg {
+    background-image: 
+      linear-gradient(0deg, transparent 24%, hsl(var(--neon-cyan) / 0.05) 25%, hsl(var(--neon-cyan) / 0.05) 26%, transparent 27%, transparent 74%, hsl(var(--neon-cyan) / 0.05) 75%, hsl(var(--neon-cyan) / 0.05) 76%, transparent 77%, transparent),
+      linear-gradient(90deg, transparent 24%, hsl(var(--neon-cyan) / 0.05) 25%, hsl(var(--neon-cyan) / 0.05) 26%, transparent 27%, transparent 74%, hsl(var(--neon-cyan) / 0.05) 75%, hsl(var(--neon-cyan) / 0.05) 76%, transparent 77%, transparent);
+    background-size: 50px 50px;
+    animation: matrix-scan 20s linear infinite;
+  }
+
+  /* Pulse animation for stats */
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  /* Glitch effect */
+  @keyframes glitch {
+    0% {
+      text-shadow: 2px 2px hsl(var(--neon-cyan)), -2px -2px hsl(var(--neon-pink));
+    }
+    25% {
+      text-shadow: -2px -2px hsl(var(--neon-cyan)), 2px 2px hsl(var(--neon-pink));
+    }
+    50% {
+      text-shadow: 2px -2px hsl(var(--neon-cyan)), -2px 2px hsl(var(--neon-pink));
+    }
+    75% {
+      text-shadow: -2px 2px hsl(var(--neon-cyan)), 2px -2px hsl(var(--neon-pink));
+    }
+    100% {
+      text-shadow: 2px 2px hsl(var(--neon-cyan)), -2px -2px hsl(var(--neon-pink));
+    }
+  }
+
+  .text-glitch {
+    animation: glitch 3s infinite;
   }
 }

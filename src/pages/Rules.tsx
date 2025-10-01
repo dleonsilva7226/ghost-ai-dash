@@ -4,7 +4,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Save } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Save, Sparkles, Zap } from "lucide-react";
 import { toast } from "sonner";
 
 const defaultRuleConfig = `# GhostAI Security Rules Configuration
@@ -51,20 +52,65 @@ overrides:
       rules:
         - secret-detection: false`;
 
+const examplePrompts = [
+  "Block if more than 50 lines of code touched in SQL migrations",
+  "Alert on any AWS credentials in config files",
+  "Detect sensitive customer PII in logs and responses",
+  "Flag prompt injection attempts in user inputs",
+];
+
 const Rules = () => {
   const [config, setConfig] = useState(defaultRuleConfig);
   const [isEnabled, setIsEnabled] = useState(true);
+  const [naturalLanguageInput, setNaturalLanguageInput] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const handleSave = () => {
-    toast.success("Rules configuration saved successfully");
+    toast.success("Rules configuration saved successfully", {
+      description: "Your security policies are now active",
+    });
+  };
+
+  const handleGenerateFromPrompt = () => {
+    if (!naturalLanguageInput.trim()) {
+      toast.error("Please enter a rule description");
+      return;
+    }
+
+    setIsGenerating(true);
+    
+    // Simulate AI generation
+    setTimeout(() => {
+      const generatedYaml = `
+  - name: custom-rule-${Date.now()}
+    enabled: true
+    threshold: high
+    description: "${naturalLanguageInput}"
+    patterns:
+      - type: auto_generated
+        condition: "${naturalLanguageInput.toLowerCase()}"`;
+      
+      setConfig(config + "\n" + generatedYaml);
+      setNaturalLanguageInput("");
+      setIsGenerating(false);
+      toast.success("Rule generated!", {
+        description: "AI-generated rule added to your configuration",
+      });
+    }, 1500);
+  };
+
+  const toggleRuleAnimation = (ruleName: string) => {
+    toast.info(`${ruleName} toggled`, {
+      description: "Rule status updated",
+    });
   };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Rules</h1>
-          <p className="text-muted-foreground">Configure security detection rules</p>
+          <h1 className="text-3xl font-bold text-glitch">Rules</h1>
+          <p className="text-muted-foreground">Configure security detection rules with AI</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
@@ -72,60 +118,123 @@ const Rules = () => {
               id="rules-enabled"
               checked={isEnabled}
               onCheckedChange={setIsEnabled}
+              className="data-[state=checked]:bg-primary"
             />
-            <Label htmlFor="rules-enabled">Rules Enabled</Label>
+            <Label htmlFor="rules-enabled" className="cursor-pointer">
+              Rules {isEnabled ? "Enabled" : "Disabled"}
+            </Label>
           </div>
-          <Button onClick={handleSave}>
+          <Button onClick={handleSave} className="glow-cyan">
             <Save className="h-4 w-4 mr-2" />
             Save Configuration
           </Button>
         </div>
       </div>
 
-      <Card>
+      {/* Natural Language Rule Input */}
+      <Card className="border-primary/50 glow-cyan">
         <CardHeader>
-          <CardTitle>Rule Configuration (YAML)</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
+            AI Rule Generator
+          </CardTitle>
         </CardHeader>
-        <CardContent>
-          <Textarea
-            value={config}
-            onChange={(e) => setConfig(e.target.value)}
-            className="font-mono text-sm min-h-[600px] bg-muted/30"
-            spellCheck={false}
-          />
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label>Describe your security policy in plain English</Label>
+            <div className="flex gap-2">
+              <Input
+                placeholder="e.g., Block if more than 50 lines touched in SQL migrations"
+                value={naturalLanguageInput}
+                onChange={(e) => setNaturalLanguageInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleGenerateFromPrompt()}
+                className="flex-1 border-primary/30"
+              />
+              <Button 
+                onClick={handleGenerateFromPrompt}
+                disabled={isGenerating}
+                className="glow-purple"
+              >
+                {isGenerating ? (
+                  <>
+                    <Zap className="h-4 w-4 mr-2 animate-pulse" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="h-4 w-4 mr-2" />
+                    Generate
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <span className="text-xs text-muted-foreground">Examples:</span>
+            {examplePrompts.map((prompt, i) => (
+              <button
+                key={i}
+                onClick={() => setNaturalLanguageInput(prompt)}
+                className="text-xs px-3 py-1 rounded-full bg-secondary/50 hover:bg-secondary border border-secondary-foreground/20 transition-all hover:glow-purple"
+              >
+                {prompt}
+              </button>
+            ))}
+          </div>
         </CardContent>
       </Card>
 
-      <Card>
+      {/* YAML Editor */}
+      <div className="grid grid-cols-1 gap-6">
+        <Card className="border-border/50">
+          <CardHeader>
+            <CardTitle>Rule Configuration (YAML)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Textarea
+              value={config}
+              onChange={(e) => setConfig(e.target.value)}
+              className="font-mono text-sm min-h-[500px] bg-muted/30 border-primary/20"
+              spellCheck={false}
+            />
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Rule Summary with Animation */}
+      <Card className="border-accent/30 glow-pink">
         <CardHeader>
-          <CardTitle>Rule Summary</CardTitle>
+          <CardTitle>Active Rules</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 border border-border rounded-lg">
-              <h3 className="font-semibold mb-2">Secret Detection</h3>
-              <p className="text-sm text-muted-foreground">
-                Enabled • High threshold • 2 patterns
-              </p>
-            </div>
-            <div className="p-4 border border-border rounded-lg">
-              <h3 className="font-semibold mb-2">PII Detection</h3>
-              <p className="text-sm text-muted-foreground">
-                Enabled • Medium threshold • 2 patterns
-              </p>
-            </div>
-            <div className="p-4 border border-border rounded-lg">
-              <h3 className="font-semibold mb-2">Prompt Injection</h3>
-              <p className="text-sm text-muted-foreground">
-                Enabled • High threshold • 2 detectors
-              </p>
-            </div>
-            <div className="p-4 border border-border rounded-lg opacity-60">
-              <h3 className="font-semibold mb-2">Risky Code</h3>
-              <p className="text-sm text-muted-foreground">
-                Disabled • Low threshold • 2 patterns
-              </p>
-            </div>
+            {[
+              { name: "Secret Detection", enabled: true, threshold: "high", patterns: 2, color: "critical" },
+              { name: "PII Detection", enabled: true, threshold: "medium", patterns: 2, color: "warning" },
+              { name: "Prompt Injection", enabled: true, threshold: "high", patterns: 2, color: "warning" },
+              { name: "Risky Code", enabled: false, threshold: "low", patterns: 2, color: "safe" },
+            ].map((rule, i) => (
+              <div
+                key={i}
+                className={`p-4 border rounded-lg transition-all duration-300 ${
+                  rule.enabled 
+                    ? `border-${rule.color} bg-${rule.color}/5 hover:glow-${rule.color === 'critical' ? 'pink' : rule.color === 'warning' ? 'purple' : 'green'}` 
+                    : 'border-border opacity-60'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-semibold">{rule.name}</h3>
+                  <Switch
+                    checked={rule.enabled}
+                    onCheckedChange={() => toggleRuleAnimation(rule.name)}
+                    className={rule.enabled ? "data-[state=checked]:bg-primary" : ""}
+                  />
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {rule.enabled ? "Enabled" : "Disabled"} • {rule.threshold} threshold • {rule.patterns} patterns
+                </p>
+              </div>
+            ))}
           </div>
         </CardContent>
       </Card>
