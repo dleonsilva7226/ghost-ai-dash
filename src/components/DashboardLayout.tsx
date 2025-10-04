@@ -34,12 +34,12 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full matrix-bg">
+      <div className="min-h-screen flex w-full">
         <Sidebar>
           <SidebarContent>
             <div className="px-6 py-4 border-b border-sidebar-border">
               <div className="flex items-center gap-2 mb-2">
-                <Ghost className="h-6 w-6 text-primary glow-cyan" />
+                <Ghost className="h-6 w-6 text-primary" />
                 <h1 className="text-xl font-bold text-sidebar-foreground">GhostAI</h1>
               </div>
               <p className="text-xs text-muted-foreground">Security Dashboard</p>
@@ -85,7 +85,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
             </div>
           </SidebarContent>
         </Sidebar>
-        <main className="flex-1 p-8 bg-background/50 backdrop-blur-sm">{children}</main>
+        <main className="flex-1 p-8">{children}</main>
       </div>
     </SidebarProvider>
   );

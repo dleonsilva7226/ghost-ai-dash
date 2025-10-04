@@ -50,7 +50,7 @@ const Overview = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-glitch">Overview</h1>
+        <h1 className="text-3xl font-bold">Overview</h1>
         <p className="text-muted-foreground">Security findings across all repositories</p>
       </div>
 
@@ -58,9 +58,8 @@ const Overview = () => {
         {issueData.map((issue) => (
           <Card 
             key={issue.name} 
-            className={`border-${issue.color} border-2 relative overflow-hidden group hover:${issue.glow} transition-all duration-300`}
+            className="border-2 hover:shadow-lg transition-all duration-300"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-transparent to-${issue.color}/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">{issue.name}</CardTitle>
               <issue.icon className={`h-5 w-5 text-${issue.color}`} />
@@ -68,7 +67,7 @@ const Overview = () => {
             <CardContent>
               <div className="flex items-end justify-between">
                 <div>
-                  <div className="text-3xl font-bold pulse-glow">{issue.count}</div>
+                  <div className="text-3xl font-bold">{issue.count}</div>
                   <div className="flex items-center gap-1 mt-1">
                     {issue.trend !== 0 && (
                       <>
@@ -104,7 +103,7 @@ const Overview = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 border-primary/30 glow-cyan">
+        <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle>Violations Over Time (Last 30 Days)</CardTitle>
           </CardHeader>
@@ -146,7 +145,7 @@ const Overview = () => {
           </CardContent>
         </Card>
 
-        <Card className="border-secondary/30 glow-purple">
+        <Card>
           <CardHeader>
             <CardTitle>Severity Breakdown</CardTitle>
           </CardHeader>

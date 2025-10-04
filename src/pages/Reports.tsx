@@ -105,19 +105,19 @@ const Reports = () => {
     switch (severity) {
       case "high":
         return (
-          <Badge variant="outline" className="bg-critical/10 text-critical border-critical glow-pink">
+          <Badge variant="outline" className="bg-critical/10 text-critical border-critical">
             High
           </Badge>
         );
       case "medium":
         return (
-          <Badge variant="outline" className="bg-warning/10 text-warning border-warning glow-purple">
+          <Badge variant="outline" className="bg-warning/10 text-warning border-warning">
             Medium
           </Badge>
         );
       case "low":
         return (
-          <Badge variant="outline" className="bg-safe/10 text-safe border-safe glow-green">
+          <Badge variant="outline" className="bg-safe/10 text-safe border-safe">
             Low
           </Badge>
         );
@@ -129,12 +129,12 @@ const Reports = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-glitch">Reports</h1>
+        <h1 className="text-3xl font-bold">Reports</h1>
         <p className="text-muted-foreground">All security findings and violations</p>
       </div>
 
       {/* Repository Heatmap */}
-      <Card className="border-primary/30 glow-cyan">
+      <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <GitBranch className="h-5 w-5" />
@@ -174,7 +174,7 @@ const Reports = () => {
 
       <div className="flex gap-4">
         <Select value={severityFilter} onValueChange={setSeverityFilter}>
-          <SelectTrigger className="w-48 border-primary/30">
+          <SelectTrigger className="w-48">
             <SelectValue placeholder="Filter by severity" />
           </SelectTrigger>
           <SelectContent>
@@ -186,7 +186,7 @@ const Reports = () => {
         </Select>
 
         <Select value={detectorFilter} onValueChange={setDetectorFilter}>
-          <SelectTrigger className="w-48 border-primary/30">
+          <SelectTrigger className="w-48">
             <SelectValue placeholder="Filter by detector" />
           </SelectTrigger>
           <SelectContent>
@@ -199,7 +199,7 @@ const Reports = () => {
         </Select>
       </div>
 
-      <Card className="border-secondary/30 glow-purple">
+      <Card>
         <CardHeader>
           <CardTitle>Findings ({filteredFindings.length})</CardTitle>
         </CardHeader>
@@ -220,7 +220,7 @@ const Reports = () => {
                 <TableRow 
                   key={finding.id}
                   className={`border-border/50 transition-all duration-200 ${
-                    hoveredFinding === finding.id ? 'bg-primary/5 glow-cyan' : ''
+                    hoveredFinding === finding.id ? 'bg-primary/5' : ''
                   }`}
                   onMouseEnter={() => setHoveredFinding(finding.id)}
                   onMouseLeave={() => setHoveredFinding(null)}
@@ -231,7 +231,7 @@ const Reports = () => {
                   <TableCell>{getSeverityBadge(finding.severity)}</TableCell>
                   <TableCell className="text-muted-foreground">{finding.createdAt}</TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="sm" className="hover:glow-cyan">
+                    <Button variant="ghost" size="sm">
                       <Eye className="h-4 w-4 mr-1" />
                       View Details
                     </Button>
@@ -243,7 +243,7 @@ const Reports = () => {
           
           {/* Hover Preview */}
           {hoveredFinding && (
-            <div className="mt-4 p-4 bg-muted/50 rounded-lg border border-primary/30 glow-cyan">
+            <div className="mt-4 p-4 bg-muted/50 rounded-lg border border-primary">
               <div className="text-xs text-muted-foreground mb-1">Preview:</div>
               <code className="text-sm font-mono text-primary">
                 {findings.find(f => f.id === hoveredFinding)?.snippet}

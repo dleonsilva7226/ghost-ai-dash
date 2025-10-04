@@ -109,7 +109,7 @@ const Rules = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-glitch">Rules</h1>
+          <h1 className="text-3xl font-bold">Rules</h1>
           <p className="text-muted-foreground">Configure security detection rules with AI</p>
         </div>
         <div className="flex items-center gap-4">
@@ -124,7 +124,7 @@ const Rules = () => {
               Rules {isEnabled ? "Enabled" : "Disabled"}
             </Label>
           </div>
-          <Button onClick={handleSave} className="glow-cyan">
+          <Button onClick={handleSave}>
             <Save className="h-4 w-4 mr-2" />
             Save Configuration
           </Button>
@@ -132,7 +132,7 @@ const Rules = () => {
       </div>
 
       {/* Natural Language Rule Input */}
-      <Card className="border-primary/50 glow-cyan">
+      <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" />
@@ -153,7 +153,6 @@ const Rules = () => {
               <Button 
                 onClick={handleGenerateFromPrompt}
                 disabled={isGenerating}
-                className="glow-purple"
               >
                 {isGenerating ? (
                   <>
@@ -175,7 +174,7 @@ const Rules = () => {
               <button
                 key={i}
                 onClick={() => setNaturalLanguageInput(prompt)}
-                className="text-xs px-3 py-1 rounded-full bg-secondary/50 hover:bg-secondary border border-secondary-foreground/20 transition-all hover:glow-purple"
+                className="text-xs px-3 py-1 rounded-full bg-secondary/50 hover:bg-secondary border border-secondary-foreground/20 transition-all"
               >
                 {prompt}
               </button>
@@ -194,7 +193,7 @@ const Rules = () => {
             <Textarea
               value={config}
               onChange={(e) => setConfig(e.target.value)}
-              className="font-mono text-sm min-h-[500px] bg-muted/30 border-primary/20"
+              className="font-mono text-sm min-h-[500px] bg-muted/30"
               spellCheck={false}
             />
           </CardContent>
@@ -202,7 +201,7 @@ const Rules = () => {
       </div>
 
       {/* Rule Summary with Animation */}
-      <Card className="border-accent/30 glow-pink">
+      <Card>
         <CardHeader>
           <CardTitle>Active Rules</CardTitle>
         </CardHeader>
@@ -218,7 +217,7 @@ const Rules = () => {
                 key={i}
                 className={`p-4 border rounded-lg transition-all duration-300 ${
                   rule.enabled 
-                    ? `border-${rule.color} bg-${rule.color}/5 hover:glow-${rule.color === 'critical' ? 'pink' : rule.color === 'warning' ? 'purple' : 'green'}` 
+                    ? `border-${rule.color} bg-${rule.color}/5 hover:shadow-md` 
                     : 'border-border opacity-60'
                 }`}
               >
