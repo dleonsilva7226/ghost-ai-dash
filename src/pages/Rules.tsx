@@ -109,7 +109,7 @@ const Rules = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Rules</h1>
+          <h1 className="text-3xl font-bold text-foreground">Rules</h1>
           <p className="text-muted-foreground">Configure security detection rules with AI</p>
         </div>
         <div className="flex items-center gap-4">
@@ -120,11 +120,11 @@ const Rules = () => {
               onCheckedChange={setIsEnabled}
               className="data-[state=checked]:bg-primary"
             />
-            <Label htmlFor="rules-enabled" className="cursor-pointer">
+            <Label htmlFor="rules-enabled" className="cursor-pointer text-foreground">
               Rules {isEnabled ? "Enabled" : "Disabled"}
             </Label>
           </div>
-          <Button onClick={handleSave}>
+          <Button onClick={handleSave} className="bg-primary hover:bg-primary/90">
             <Save className="h-4 w-4 mr-2" />
             Save Configuration
           </Button>
@@ -132,27 +132,28 @@ const Rules = () => {
       </div>
 
       {/* Natural Language Rule Input */}
-      <Card>
+      <Card className="border border-border">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-foreground">
             <Sparkles className="h-5 w-5 text-primary" />
             AI Rule Generator
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label>Describe your security policy in plain English</Label>
+            <Label className="text-foreground">Describe your security policy in plain English</Label>
             <div className="flex gap-2">
               <Input
                 placeholder="e.g., Block if more than 50 lines touched in SQL migrations"
                 value={naturalLanguageInput}
                 onChange={(e) => setNaturalLanguageInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleGenerateFromPrompt()}
-                className="flex-1 border-primary/30"
+                className="flex-1"
               />
               <Button 
                 onClick={handleGenerateFromPrompt}
                 disabled={isGenerating}
+                className="bg-primary hover:bg-primary/90"
               >
                 {isGenerating ? (
                   <>
@@ -174,7 +175,7 @@ const Rules = () => {
               <button
                 key={i}
                 onClick={() => setNaturalLanguageInput(prompt)}
-                className="text-xs px-3 py-1 rounded-full bg-secondary/50 hover:bg-secondary border border-secondary-foreground/20 transition-all"
+                className="text-xs px-3 py-1 rounded-full bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground border border-border transition-all"
               >
                 {prompt}
               </button>
@@ -185,44 +186,44 @@ const Rules = () => {
 
       {/* YAML Editor */}
       <div className="grid grid-cols-1 gap-6">
-        <Card className="border-border/50">
+        <Card className="border border-border">
           <CardHeader>
-            <CardTitle>Rule Configuration (YAML)</CardTitle>
+            <CardTitle className="text-foreground">Rule Configuration (YAML)</CardTitle>
           </CardHeader>
           <CardContent>
             <Textarea
               value={config}
               onChange={(e) => setConfig(e.target.value)}
-              className="font-mono text-sm min-h-[500px] bg-muted/30"
+              className="font-mono text-sm min-h-[500px] bg-muted/30 border border-input"
               spellCheck={false}
             />
           </CardContent>
         </Card>
       </div>
 
-      {/* Rule Summary with Animation */}
-      <Card>
+      {/* Rule Summary */}
+      <Card className="border border-border">
         <CardHeader>
-          <CardTitle>Active Rules</CardTitle>
+          <CardTitle className="text-foreground">Active Rules</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
-              { name: "Secret Detection", enabled: true, threshold: "high", patterns: 2, color: "critical" },
-              { name: "PII Detection", enabled: true, threshold: "medium", patterns: 2, color: "warning" },
-              { name: "Prompt Injection", enabled: true, threshold: "high", patterns: 2, color: "warning" },
-              { name: "Risky Code", enabled: false, threshold: "low", patterns: 2, color: "safe" },
+              { name: "Secret Detection", enabled: true, threshold: "high", patterns: 2 },
+              { name: "PII Detection", enabled: true, threshold: "medium", patterns: 2 },
+              { name: "Prompt Injection", enabled: true, threshold: "high", patterns: 2 },
+              { name: "Risky Code", enabled: false, threshold: "low", patterns: 2 },
             ].map((rule, i) => (
               <div
                 key={i}
                 className={`p-4 border rounded-lg transition-all duration-300 ${
                   rule.enabled 
-                    ? `border-${rule.color} bg-${rule.color}/5 hover:shadow-md` 
-                    : 'border-border opacity-60'
+                    ? 'border-border bg-card hover:border-primary/50' 
+                    : 'border-border opacity-50'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold">{rule.name}</h3>
+                  <h3 className="font-semibold text-foreground">{rule.name}</h3>
                   <Switch
                     checked={rule.enabled}
                     onCheckedChange={() => toggleRuleAnimation(rule.name)}

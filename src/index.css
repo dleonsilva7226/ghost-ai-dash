@@ -17,92 +17,92 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 220 10% 10%;
 
-    --primary: 215 60% 50%;
+    --primary: 239 84% 67%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 10% 95%;
-    --secondary-foreground: 220 10% 10%;
+    --secondary: 173 80% 40%;
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 220 10% 96%;
     --muted-foreground: 220 10% 40%;
 
-    --accent: 215 60% 50%;
+    --accent: 239 84% 67%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 70% 50%;
+    --destructive: 0 72% 59%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 220 10% 90%;
     --input: 220 10% 90%;
-    --ring: 215 60% 50%;
+    --ring: 239 84% 67%;
 
     --radius: 0.5rem;
 
-    /* Security severity colors */
-    --critical: 0 70% 50%;
+    /* Observability severity colors */
+    --critical: 0 72% 59%;
     --critical-foreground: 0 0% 100%;
-    --warning: 35 90% 55%;
-    --warning-foreground: 0 0% 100%;
-    --safe: 145 65% 45%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 224 54% 10%;
+    --safe: 173 80% 40%;
     --safe-foreground: 0 0% 100%;
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 220 10% 10%;
-    --sidebar-primary: 215 60% 50%;
+    --sidebar-primary: 239 84% 67%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 220 10% 96%;
     --sidebar-accent-foreground: 220 10% 10%;
     --sidebar-border: 220 10% 90%;
-    --sidebar-ring: 215 60% 50%;
+    --sidebar-ring: 239 84% 67%;
   }
 
   .dark {
-    /* Modern charcoal palette */
-    --background: 220 15% 10%;
-    --foreground: 220 10% 95%;
+    /* Modern observability dark theme - Datadog/Grafana inspired */
+    --background: 224 54% 10%;
+    --foreground: 220 20% 98%;
 
-    --card: 220 15% 13%;
-    --card-foreground: 220 10% 95%;
+    --card: 217 33% 17%;
+    --card-foreground: 220 20% 98%;
 
-    --popover: 220 15% 13%;
-    --popover-foreground: 220 10% 95%;
+    --popover: 217 33% 17%;
+    --popover-foreground: 220 20% 98%;
 
-    --primary: 215 70% 60%;
-    --primary-foreground: 220 15% 10%;
+    --primary: 239 84% 67%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 15% 20%;
-    --secondary-foreground: 220 10% 95%;
+    --secondary: 173 80% 40%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 15% 18%;
-    --muted-foreground: 220 10% 60%;
+    --muted: 217 33% 20%;
+    --muted-foreground: 220 9% 65%;
 
-    --accent: 215 70% 60%;
-    --accent-foreground: 220 15% 10%;
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 70% 60%;
-    --destructive-foreground: 220 10% 95%;
+    --destructive: 0 72% 59%;
+    --destructive-foreground: 220 20% 98%;
 
-    --border: 220 15% 25%;
-    --input: 220 15% 25%;
-    --ring: 215 70% 60%;
+    --border: 217 33% 24%;
+    --input: 217 33% 24%;
+    --ring: 239 84% 67%;
 
-    /* Subtle security severity colors */
-    --critical: 0 70% 60%;
-    --critical-foreground: 0 0% 100%;
-    --warning: 35 90% 60%;
-    --warning-foreground: 220 15% 10%;
-    --safe: 145 65% 55%;
-    --safe-foreground: 220 15% 10%;
+    /* Observability signal colors - use sparingly */
+    --critical: 0 72% 59%;
+    --critical-foreground: 220 20% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 224 54% 10%;
+    --safe: 173 80% 40%;
+    --safe-foreground: 220 20% 98%;
 
-    /* Charcoal sidebar */
-    --sidebar-background: 220 15% 8%;
-    --sidebar-foreground: 220 10% 95%;
-    --sidebar-primary: 215 70% 60%;
-    --sidebar-primary-foreground: 220 15% 10%;
-    --sidebar-accent: 220 15% 15%;
-    --sidebar-accent-foreground: 220 10% 95%;
-    --sidebar-border: 220 15% 20%;
-    --sidebar-ring: 215 70% 60%;
+    /* Sidebar */
+    --sidebar-background: 224 54% 8%;
+    --sidebar-foreground: 220 20% 98%;
+    --sidebar-primary: 239 84% 67%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217 33% 15%;
+    --sidebar-accent-foreground: 220 20% 98%;
+    --sidebar-border: 217 33% 20%;
+    --sidebar-ring: 239 84% 67%;
   }
 }
 

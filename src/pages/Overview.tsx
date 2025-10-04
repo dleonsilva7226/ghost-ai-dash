@@ -14,10 +14,10 @@ import {
 } from "recharts";
 
 const issueData = [
-  { name: "Secrets", count: 47, icon: Key, trend: -5, color: "critical", glow: "glow-pink" },
-  { name: "PII", count: 23, icon: Shield, trend: 12, color: "warning", glow: "glow-purple" },
-  { name: "Prompt Injection", count: 12, icon: AlertTriangle, trend: -3, color: "warning", glow: "glow-purple" },
-  { name: "Risky Code", count: 8, icon: Code, trend: 0, color: "safe", glow: "glow-green" },
+  { name: "Secrets", count: 47, icon: Key, trend: -5 },
+  { name: "PII", count: 23, icon: Shield, trend: 12 },
+  { name: "Prompt Injection", count: 12, icon: AlertTriangle, trend: -3 },
+  { name: "Risky Code", count: 8, icon: Code, trend: 0 },
 ];
 
 const severityData = [
@@ -50,7 +50,7 @@ const Overview = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Overview</h1>
+        <h1 className="text-3xl font-bold text-foreground">Overview</h1>
         <p className="text-muted-foreground">Security findings across all repositories</p>
       </div>
 
@@ -58,16 +58,16 @@ const Overview = () => {
         {issueData.map((issue) => (
           <Card 
             key={issue.name} 
-            className="border-2 hover:shadow-lg transition-all duration-300"
+            className="border border-border hover:border-primary/50 transition-all duration-300"
           >
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">{issue.name}</CardTitle>
-              <issue.icon className={`h-5 w-5 text-${issue.color}`} />
+              <CardTitle className="text-sm font-medium text-muted-foreground">{issue.name}</CardTitle>
+              <issue.icon className="h-5 w-5 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="flex items-end justify-between">
                 <div>
-                  <div className="text-3xl font-bold">{issue.count}</div>
+                  <div className="text-3xl font-bold text-foreground">{issue.count}</div>
                   <div className="flex items-center gap-1 mt-1">
                     {issue.trend !== 0 && (
                       <>
@@ -76,7 +76,7 @@ const Overview = () => {
                         ) : (
                           <TrendingDown className="h-3 w-3 text-safe" />
                         )}
-                        <span className={`text-xs ${issue.trend > 0 ? 'text-critical' : 'text-safe'}`}>
+                        <span className={`text-xs font-medium ${issue.trend > 0 ? 'text-critical' : 'text-safe'}`}>
                           {Math.abs(issue.trend)}%
                         </span>
                       </>
@@ -89,7 +89,7 @@ const Overview = () => {
                       <Line 
                         type="monotone" 
                         dataKey="value" 
-                        stroke={`hsl(var(--${issue.color}))`}
+                        stroke="hsl(var(--muted-foreground))"
                         strokeWidth={2}
                         dot={false}
                       />
@@ -103,20 +103,14 @@ const Overview = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 border border-border">
           <CardHeader>
-            <CardTitle>Violations Over Time (Last 30 Days)</CardTitle>
+            <CardTitle className="text-foreground">Violations Over Time (Last 30 Days)</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={timelineData}>
-                <defs>
-                  <linearGradient id="violationGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.2} />
                 <XAxis
                   dataKey="date"
                   stroke="hsl(var(--muted-foreground))"
@@ -128,26 +122,24 @@ const Overview = () => {
                     backgroundColor: "hsl(var(--card))",
                     border: "1px solid hsl(var(--border))",
                     borderRadius: "8px",
-                    boxShadow: "0 0 20px hsl(var(--primary) / 0.3)",
                   }}
                 />
                 <Line
                   type="monotone"
                   dataKey="violations"
                   stroke="hsl(var(--primary))"
-                  strokeWidth={3}
-                  dot={{ fill: "hsl(var(--primary))", r: 4 }}
-                  activeDot={{ r: 6 }}
-                  fill="url(#violationGradient)"
+                  strokeWidth={2}
+                  dot={{ fill: "hsl(var(--primary))", r: 3 }}
+                  activeDot={{ r: 5 }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border border-border">
           <CardHeader>
-            <CardTitle>Severity Breakdown</CardTitle>
+            <CardTitle className="text-foreground">Severity Breakdown</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <ResponsiveContainer width="100%" height={200}>
@@ -176,15 +168,15 @@ const Overview = () => {
             </ResponsiveContainer>
             <div className="space-y-2">
               {severityData.map((severity) => (
-                <div key={severity.name} className="flex items-center justify-between">
+                <div key={severity.name} className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-2">
                     <div 
                       className="w-3 h-3 rounded-full" 
                       style={{ backgroundColor: severity.color }}
                     />
-                    <span className="text-sm font-medium">{severity.name}</span>
+                    <span className="text-foreground font-medium">{severity.name}</span>
                   </div>
-                  <span className="text-sm font-bold">{severity.count}</span>
+                  <span className="text-foreground font-bold">{severity.count}</span>
                 </div>
               ))}
             </div>

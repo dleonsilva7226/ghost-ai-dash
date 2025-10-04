@@ -14,18 +14,18 @@ const Settings = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Settings</h1>
+        <h1 className="text-3xl font-bold text-foreground">Settings</h1>
         <p className="text-muted-foreground">Manage your GhostAI configuration</p>
       </div>
 
-      <Card>
+      <Card className="border border-border">
         <CardHeader>
-          <CardTitle>General Settings</CardTitle>
+          <CardTitle className="text-foreground">General Settings</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Enable automatic scanning</Label>
+              <Label className="text-foreground">Enable automatic scanning</Label>
               <p className="text-sm text-muted-foreground">
                 Automatically scan repositories on push events
               </p>
@@ -35,7 +35,7 @@ const Settings = () => {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Email notifications</Label>
+              <Label className="text-foreground">Email notifications</Label>
               <p className="text-sm text-muted-foreground">
                 Receive alerts for critical findings
               </p>
@@ -45,7 +45,7 @@ const Settings = () => {
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <Label>Slack integration</Label>
+              <Label className="text-foreground">Slack integration</Label>
               <p className="text-sm text-muted-foreground">
                 Send notifications to Slack channels
               </p>
@@ -55,33 +55,35 @@ const Settings = () => {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="border border-border">
         <CardHeader>
-          <CardTitle>API Configuration</CardTitle>
+          <CardTitle className="text-foreground">API Configuration</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="api-key">API Key</Label>
+            <Label htmlFor="api-key" className="text-foreground">API Key</Label>
             <Input
               id="api-key"
               type="password"
               placeholder="Enter your API key"
               defaultValue="••••••••••••••••"
+              className="bg-muted border-input"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="webhook-url">Webhook URL</Label>
+            <Label htmlFor="webhook-url" className="text-foreground">Webhook URL</Label>
             <Input
               id="webhook-url"
               placeholder="https://your-domain.com/webhook"
+              className="bg-muted border-input"
             />
           </div>
         </CardContent>
       </Card>
 
       <div className="flex justify-end">
-        <Button onClick={handleSave}>
+        <Button onClick={handleSave} className="bg-primary hover:bg-primary/90">
           <Save className="h-4 w-4 mr-2" />
           Save Settings
         </Button>
