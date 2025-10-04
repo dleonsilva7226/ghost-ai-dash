@@ -105,19 +105,19 @@ const Reports = () => {
     switch (severity) {
       case "high":
         return (
-          <Badge variant="outline" className="bg-critical/10 text-critical border-critical text-xs font-medium">
+          <Badge variant="outline" className="bg-critical/10 text-critical border-critical">
             High
           </Badge>
         );
       case "medium":
         return (
-          <Badge variant="outline" className="bg-warning/10 text-warning border-warning text-xs font-medium">
+          <Badge variant="outline" className="bg-warning/10 text-warning border-warning">
             Medium
           </Badge>
         );
       case "low":
         return (
-          <Badge variant="outline" className="bg-safe/10 text-safe border-safe text-xs font-medium">
+          <Badge variant="outline" className="bg-safe/10 text-safe border-safe">
             Low
           </Badge>
         );
@@ -129,22 +129,22 @@ const Reports = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Reports</h1>
+        <h1 className="text-3xl font-bold">Reports</h1>
         <p className="text-muted-foreground">All security findings and violations</p>
       </div>
 
       {/* Repository Heatmap */}
-      <Card className="border border-border">
+      <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-foreground">
-            <GitBranch className="h-5 w-5 text-muted-foreground" />
+          <CardTitle className="flex items-center gap-2">
+            <GitBranch className="h-5 w-5" />
             Repository Heatmap
           </CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={repoHeatmapData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.2} />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
               <XAxis 
                 dataKey="repo" 
                 stroke="hsl(var(--muted-foreground))" 
@@ -159,9 +159,10 @@ const Reports = () => {
                   backgroundColor: "hsl(var(--card))",
                   border: "1px solid hsl(var(--border))",
                   borderRadius: "8px",
+                  boxShadow: "0 0 20px hsl(var(--primary) / 0.3)",
                 }}
               />
-              <Bar dataKey="issues" radius={[8, 8, 0, 0]} fill="hsl(var(--primary))">
+              <Bar dataKey="issues" radius={[8, 8, 0, 0]}>
                 {repoHeatmapData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
@@ -198,39 +199,39 @@ const Reports = () => {
         </Select>
       </div>
 
-      <Card className="border border-border">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-foreground">Findings ({filteredFindings.length})</CardTitle>
+          <CardTitle>Findings ({filteredFindings.length})</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow className="border-border hover:bg-transparent">
-                <TableHead className="text-muted-foreground">File Path</TableHead>
-                <TableHead className="text-muted-foreground">Line</TableHead>
-                <TableHead className="text-muted-foreground">Detector</TableHead>
-                <TableHead className="text-muted-foreground">Severity</TableHead>
-                <TableHead className="text-muted-foreground">Created</TableHead>
-                <TableHead className="text-muted-foreground">Actions</TableHead>
+              <TableRow className="border-border/50">
+                <TableHead>File Path</TableHead>
+                <TableHead>Line</TableHead>
+                <TableHead>Detector</TableHead>
+                <TableHead>Severity</TableHead>
+                <TableHead>Created</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredFindings.map((finding) => (
                 <TableRow 
                   key={finding.id}
-                  className={`border-border transition-all duration-200 ${
-                    hoveredFinding === finding.id ? 'bg-muted/30' : ''
+                  className={`border-border/50 transition-all duration-200 ${
+                    hoveredFinding === finding.id ? 'bg-primary/5' : ''
                   }`}
                   onMouseEnter={() => setHoveredFinding(finding.id)}
                   onMouseLeave={() => setHoveredFinding(null)}
                 >
-                  <TableCell className="font-mono text-sm text-foreground">{finding.filePath}</TableCell>
+                  <TableCell className="font-mono text-sm">{finding.filePath}</TableCell>
                   <TableCell className="text-muted-foreground">{finding.line}</TableCell>
-                  <TableCell className="text-foreground">{finding.detector}</TableCell>
+                  <TableCell>{finding.detector}</TableCell>
                   <TableCell>{getSeverityBadge(finding.severity)}</TableCell>
                   <TableCell className="text-muted-foreground">{finding.createdAt}</TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="sm" className="text-primary hover:text-primary hover:bg-primary/10">
+                    <Button variant="ghost" size="sm">
                       <Eye className="h-4 w-4 mr-1" />
                       View Details
                     </Button>
@@ -242,9 +243,9 @@ const Reports = () => {
           
           {/* Hover Preview */}
           {hoveredFinding && (
-            <div className="mt-4 p-4 bg-muted rounded-lg border border-border">
+            <div className="mt-4 p-4 bg-muted/50 rounded-lg border border-primary">
               <div className="text-xs text-muted-foreground mb-1">Preview:</div>
-              <code className="text-sm font-mono text-foreground">
+              <code className="text-sm font-mono text-primary">
                 {findings.find(f => f.id === hoveredFinding)?.snippet}
               </code>
             </div>

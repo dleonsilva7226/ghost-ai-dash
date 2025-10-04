@@ -48,21 +48,21 @@ const Repositories = () => {
     switch (status) {
       case "completed":
         return (
-          <Badge variant="outline" className="bg-safe/10 text-safe border-safe text-xs font-medium">
+          <Badge variant="outline" className="bg-safe/10 text-safe border-safe">
             <CheckCircle2 className="h-3 w-3 mr-1" />
             Completed
           </Badge>
         );
       case "scanning":
         return (
-          <Badge variant="outline" className="bg-primary/10 text-primary border-primary text-xs font-medium">
+          <Badge variant="outline" className="bg-primary/10 text-primary border-primary">
             <Clock className="h-3 w-3 mr-1" />
             Scanning
           </Badge>
         );
       case "error":
         return (
-          <Badge variant="outline" className="bg-critical/10 text-critical border-critical text-xs font-medium">
+          <Badge variant="outline" className="bg-critical/10 text-critical border-critical">
             <AlertCircle className="h-3 w-3 mr-1" />
             Error
           </Badge>
@@ -75,28 +75,28 @@ const Repositories = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-foreground">Repositories</h1>
+        <h1 className="text-3xl font-bold">Repositories</h1>
         <p className="text-muted-foreground">Manage and monitor repository scans</p>
       </div>
 
-      <Card className="border border-border">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-foreground">All Repositories</CardTitle>
+          <CardTitle>All Repositories</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
-              <TableRow className="border-border hover:bg-transparent">
-                <TableHead className="text-muted-foreground">Repository Name</TableHead>
-                <TableHead className="text-muted-foreground">Last Scan</TableHead>
-                <TableHead className="text-muted-foreground">Issues Found</TableHead>
-                <TableHead className="text-muted-foreground">Status</TableHead>
+              <TableRow>
+                <TableHead>Repository Name</TableHead>
+                <TableHead>Last Scan</TableHead>
+                <TableHead>Issues Found</TableHead>
+                <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {repositories.map((repo) => (
-                <TableRow key={repo.name} className="border-border">
-                  <TableCell className="font-medium text-foreground">{repo.name}</TableCell>
+                <TableRow key={repo.name}>
+                  <TableCell className="font-medium">{repo.name}</TableCell>
                   <TableCell className="text-muted-foreground">{repo.lastScan}</TableCell>
                   <TableCell>
                     <span
